@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/labstack/echo/v4"
 	"math/rand"
+	"os"
 )
 
 func main() {
@@ -13,7 +14,12 @@ func main() {
 		return c.String(200, "The server is running.")
 	})
 	e.GET("/generate", GetThaiCitizenID)
-	e.Logger.Fatal(e.Start(":3000"))
+	// get port from env
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3000"
+	}
+	e.Logger.Fatal(e.Start(":" + port))
 }
 
 func GetThaiCitizenID(c echo.Context) error {
